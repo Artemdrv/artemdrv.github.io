@@ -1,0 +1,173 @@
+@font-face {
+    font-family: 'SF UI Display Ultralight';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF UI Display Ultralight'), url('sf-ui-display-ultralight-58646b19bf205.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'SF UI Display Thin';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF UI Display Thin'), url('sf-ui-display-thin-58646e9b26e8b.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'SF UI Display Light';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF UI Display Light'), url('sf-ui-display-light-58646b33e0551.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'SF UI Display Medium';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF UI Display Medium'), url('sf-ui-display-medium-58646be638f96.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'SF UI Display Semibold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF UI Display Semibold'), url('sf-ui-display-semibold-58646eddcae92.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'SF UI Display Bold';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF UI Display Bold'), url('sf-ui-display-bold-58646a511e3d9.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'SF UI Display Heavy';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF UI Display Heavy'), url('sf-ui-display-heavy-586470160b9e5.woff') format('woff');
+}
+
+
+@font-face {
+    font-family: 'SF UI Display Black';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF UI Display Black'), url('sf-ui-display-black-58646a6b80d5a.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'SF Compact Medium';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF Compact Medium'), url('sf-compact-display-medium-5864711817c30.woff') format('woff');
+}
+@font-face {
+    font-family: 'SF Pro Display';
+    font-style: normal;
+    font-weight: normal;
+    src: local('SF Pro Display'), url('FontsFree-Net-SFProDisplay-Regular.ttf') format('ttf');
+}
+body {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none;
+    /*height  : 100%;*/
+    overflow: auto;
+    font-family:'SF UI Display Medium' !important;
+    touch-action: manipulation;
+    /* background-color: #000; */
+}
+html {
+    /*height  : 100%;*/
+    overflow: hidden;
+    /* background-color: #000; */
+
+}
+html,
+body {
+    position: fixed;
+    overflow: hidden;
+    background-color: #000;
+
+}
+body > .mainwrapper {
+    width: 100vw;
+    height: 100vh;
+    overflow-y: scroll;
+    -webkit-overflow-scrolling: touch; /* enables “momentum” (smooth) scrolling */
+}
+div.ReactTags__tags {
+    position: relative;
+    color: #282c34;
+}
+
+/* Styles for the input */
+div.ReactTags__tagInput {
+    width: 97%;
+    border-radius: 2px;
+    display: inline-block;
+}
+div.ReactTags__tagInput input.ReactTags__tagInputField,
+div.ReactTags__tagInput input.ReactTags__tagInputField:focus {
+    background-color: rgb(0, 0, 0);
+    border-color: rgb(255, 255, 255);
+    border-radius: 3px;
+    border-width: 1px;
+    font-size: 16px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    padding: 8px;
+    color: white;
+    width: 98%;
+}
+
+/* Styles for selected tags */
+div.ReactTags__selected span.ReactTags__tag {
+    border: 1px solid #ddd;
+    background: #eee;
+    font-size: 12px;
+    display: inline-block;
+    padding: 5px;
+    margin: 0 5px 5px;
+    cursor: move;
+    border-radius: 2px;
+}
+div.ReactTags__selected a.ReactTags__remove {
+    color: #aaa;
+    margin-left: 5px;
+    cursor: pointer;
+}
+
+/* Styles for suggestions */
+div.ReactTags__suggestions {
+    position: absolute;
+}
+div.ReactTags__suggestions ul {
+    list-style-type: none;
+    box-shadow: .05em .01em .5em rgba(0,0,0,.2);
+    background: white;
+    width: 200px;
+}
+div.ReactTags__suggestions li {
+    border-bottom: 1px solid #ddd;
+    padding: 5px 10px;
+    margin: 0;
+}
+div.ReactTags__suggestions li mark {
+    text-decoration: underline;
+    background: none;
+    font-weight: 600;
+}
+div.ReactTags__suggestions ul li.ReactTags__activeSuggestion {
+    background: #b7cfe0;
+    cursor: pointer;
+}
