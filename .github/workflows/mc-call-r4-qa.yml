@@ -62,6 +62,18 @@ jobs:
           for i in 1 2 3 4 5; do curl -fsS http://127.0.0.1:8765/ > /dev/null && break || sleep 1; done
           BROWSER=chromium python3 mc-call/tests/browser.py
           BROWSER=webkit python3 mc-call/tests/browser.py
+      - name: Package validated source
+        if: success() && steps.source.outputs.ready == 'true'
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile,ZIP_DEFLATED
+          root=Path('mc-call')
+          with ZipFile(root/'qa/mc-call-r4-source.zip','w',ZIP_DEFLATED) as z:
+              for p in sorted(root.rglob('*')):
+                  if p.is_file() and 'qa' not in p.relative_to(root).parts and p.suffix not in ['.woff','.woff2','.ttf','.otf']:
+                      z.write(p,p.relative_to(root))
+          PY
       - name: Save test evidence
         if: always() && steps.source.outputs.ready == 'true'
         uses: actions/upload-artifact@v4
