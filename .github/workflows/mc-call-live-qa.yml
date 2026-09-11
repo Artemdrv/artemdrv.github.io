@@ -1,0 +1,92 @@
+name: MC Call published-site check
+on:
+  push:
+    branches: [main]
+    paths: ['mc-call/**', '.github/workflows/mc-call-live-qa.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: mc-call-live-qa
+  cancel-in-progress: true
+jobs:
+  live:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Wait for exact source revision on Pages
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          from urllib.request import urlopen,Request
+          import hashlib,time,json,os
+          root=Path('mc-call');qa=Path('mc-call-live-evidence');qa.mkdir()
+          files=['index.html','ui-r4.css','app-r4.js','core-r4.js','assets-r4.js','symbols-r4.svg','manifest.webmanifest','sw.js','assets/icon-r4-180.png','assets/icon-r4-192.png','assets/icon-r4-512.png']
+          base='https://artemdrv.github.io/mc-call/'
+          report={}
+          for attempt in range(30):
+              report={};ok=True
+              for f in files:
+                  try:
+                      url=base+f+'?qa='+os.environ['GITHUB_SHA']
+                      data=urlopen(Request(url,headers={'Cache-Control':'no-cache'}),timeout=15).read()
+                      same=data==(root/f).read_bytes()
+                      report[f]={'match':same,'bytes':len(data),'sha256':hashlib.sha256(data).hexdigest()}
+                      if not same:ok=False
+                  except Exception as e:report[f]={'match':False,'error':str(e)};ok=False
+              if ok:break
+              time.sleep(6)
+          (qa/'published-resources.json').write_text(json.dumps(report,indent=2))
+          if not ok:raise SystemExit('Published files differ from verified checkout')
+          print('All',len(files),'published resources match the checkout exactly')
+          PY
+      - name: Install browser
+        run: |
+          python3 -m pip install playwright==1.56.0
+          python3 -m playwright install --with-deps chromium
+      - name: Test actual published URL
+        run: |
+          python3 - <<'PY'
+          from playwright.sync_api import sync_playwright
+          from pathlib import Path
+          import json
+          q=Path('mc-call-live-evidence');checks=[];errors=[]
+          def check(name,value):
+              checks.append({'name':name,'pass':bool(value)})
+              if not value:raise AssertionError(name)
+          try:
+              with sync_playwright() as p:
+                  browser=p.chromium.launch()
+                  context=browser.new_context(viewport={'width':428,'height':926},device_scale_factor=2,is_mobile=True,has_touch=True)
+                  page=context.new_page();page.on('pageerror',lambda e:errors.append(str(e)))
+                  page.goto('https://artemdrv.github.io/mc-call/?v=4',wait_until='networkidle')
+                  page.wait_for_function("document.documentElement.dataset.ready==='true'")
+                  page.add_style_tag(content=':root{--safe-top:47px;--safe-bottom:34px}')
+                  page.evaluate('window.dispatchEvent(new Event("resize"))');page.wait_for_timeout(200)
+                  check('Live URL opens working R4 keypad',page.locator('#keys .key').count()==12 and page.locator('#dialer').is_visible())
+                  page.screenshot(path=str(q/'live-keypad.png'))
+                  for k in '1234567':page.locator('#keys [data-key="'+k+'"]').tap()
+                  check('One digit per touch on published site',page.locator('#number').inner_text()=='1234567')
+                  page.screenshot(path=str(q/'live-number.png'))
+                  page.locator('[data-tab=contacts]').tap();check('Contacts tab works live',page.locator('#contacts').is_visible())
+                  page.screenshot(path=str(q/'live-contacts.png'))
+                  page.locator('[data-tab=calls]').tap();check('Calls tab works live',page.locator('#calls').is_visible())
+                  for _ in range(5):page.locator('#searchTab').tap()
+                  check('Five Search taps open hidden settings live',page.locator('#settings').is_visible())
+                  check('Published version is 4.0.0',page.locator('#version').inner_text()=='4.0.0')
+                  check('Demo is the default; no real call attempted',page.locator('#mode').input_value()=='demo')
+                  page.screenshot(path=str(q/'live-settings.png'))
+                  reg=page.evaluate('async()=>{const r=await navigator.serviceWorker.ready;return {scope:r.scope,script:r.active.scriptURL}}')
+                  check('Service Worker scoped to mc-call only',reg['scope']=='https://artemdrv.github.io/mc-call/' and reg['script'].endswith('/mc-call/sw.js'))
+                  check('No JavaScript errors on published site',not errors)
+                  browser.close()
+          finally:
+              (q/'live-browser-report.json').write_text(json.dumps({'checks':checks,'errors':errors,'environment':'Chromium Linux; mobile viewport emulation, not a physical iPhone'},ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: mc-call-live-evidence
+          path: mc-call-live-evidence/
+          retention-days: 7
