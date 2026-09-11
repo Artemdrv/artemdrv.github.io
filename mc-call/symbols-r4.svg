@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<symbol id="back" viewBox="0 0 24 24"><path d="m15 5-7 7 7 7" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+<symbol id="plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="close" viewBox="0 0 24 24"><path d="m7 7 10 10M7 17 10-10" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="filter" viewBox="0 0 24 24"><path d="M4 7h16M7 12h10M10 17h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></symbol>
+<symbol id="star" viewBox="0 0 24 24"><path d="m12 2.7 2.8 5.7 6.2.9-4.5 4.4 1.1 6.2-5.6-3-5.6 3 1.1-6.2L3 9.3l6.2-.9Z" fill="currentColor"/></symbol>
+<symbol id="person" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4" fill="currentColor"/><path d="M3 22c0-11 18-11 18 0" fill="currentColor"/></symbol>
+<symbol id="add-contact" viewBox="0 0 24 24"><circle cx="13" cy="10" r="8" fill="none" stroke="currentColor" stroke-width="1.6"/><circle cx="13" cy="7" r="3" fill="currentColor"/><path d="M8 16c0-7 10-7 10 0" fill="currentColor"/><circle cx="5" cy="18" r="5" fill="currentColor"/><path d="M5 15v6M2 18h6" stroke="#000" stroke-width="1.6"/></symbol>
+<symbol id="delete" viewBox="0 0 24 24"><path d="M9 3h12q3 0 3 3v12q0 3-3 3H9L0 12Z" fill="#333"/><path d="m11 8 8 8m-8 0 8-8" stroke="white" stroke-width="2" stroke-linecap="round"/></symbol>
+<symbol id="mic" viewBox="0 0 24 24"><rect x="8" y="2" width="8" height="13" rx="4" fill="currentColor"/><path d="M5 10v2a7 7 0 0 0 14 0v-2M12 19v4m-4 0h8" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="speaker" viewBox="0 0 24 24"><path d="M2 9h5l6-5v16l-6-5H2Z" fill="currentColor"/><path d="M17 8q5 4 0 8m3-11q8 7 0 14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></symbol>
+<symbol id="video" viewBox="0 0 24 24"><rect x="1" y="5" width="15" height="14" rx="4" fill="currentColor"/><path d="m17 9 6-4v14l-6-4Z" fill="currentColor"/></symbol>
+<symbol id="mail" viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="15" rx="3" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="m3 6 9 8 9-8" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+<symbol id="message" viewBox="0 0 24 24"><path d="M22 10c0 5-5 9-11 9-2 0-3 0-4-1l-6 3 2-6C-2 7 5 2 12 2c6 0 10 3 10 8" fill="currentColor"/></symbol>
+<symbol id="more" viewBox="0 0 24 24"><circle cx="5" cy="12" r="2" fill="currentColor"/><circle cx="12" cy="12" r="2" fill="currentColor"/><circle cx="19" cy="12" r="2" fill="currentColor"/></symbol>
+<symbol id="end" viewBox="0 0 24 24"><path d="M1 12c6-6 16-6 22 0l-2 6-6-2v-4h-6v4l-6 2Z" fill="currentColor"/></symbol>
+<symbol id="info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M12 10v7" stroke="currentColor" stroke-width="2"/><circle cx="12" cy="7" r="1.1" fill="currentColor"/></symbol>
+</svg>

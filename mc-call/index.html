@@ -2,141 +2,86 @@
 <html lang="ru">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#000000">
 <meta name="color-scheme" content="dark">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Телефон">
 <meta name="format-detection" content="telephone=no">
+<meta name="referrer" content="no-referrer">
+<meta name="robots" content="noindex,nofollow">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' https:; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'self' https: wss:; media-src 'self' blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'">
 <title>Телефон</title>
 <link rel="manifest" href="./manifest.webmanifest">
-<link rel="apple-touch-icon" sizes="180x180" href="./assets/icon-180.png">
-<style>
-*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000;color:#fff;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Display","SF Pro Text",system-ui,sans-serif;-webkit-font-smoothing:antialiased;-webkit-user-select:none;user-select:none;touch-action:manipulation;overscroll-behavior:none}
-button,input{font:inherit}button{border:0;margin:0;padding:0;background:transparent;color:inherit}
-.stage{position:fixed;left:0;top:0;width:428px;height:926px;transform-origin:0 0;background:#000;overflow:hidden}
-.native-crop{position:absolute;display:block;pointer-events:none}.keypad-crop{left:50px;top:244px;width:328px;height:430px}.call-crop{left:168px;top:687px;width:92px;height:92px}.bottom-crop{left:16px;top:838px;width:396px;height:74px}
-.number{position:absolute;left:48px;right:48px;top:80px;height:47px;display:flex;align-items:center;justify-content:center;white-space:nowrap;overflow:visible;color:#f7f7f8;font-size:38px;line-height:44px;font-weight:300;letter-spacing:-.72px;font-variant-numeric:tabular-nums;text-align:center;text-shadow:0 0 .01px #fff}
-.number.medium{font-size:35.5px;letter-spacing:-.65px}.number.small{font-size:33px;letter-spacing:-.58px}
-.suggestion{position:absolute;left:57px;top:129px;width:314px;height:90px;border-radius:18px;background:#222224;border:1px solid #3b3b3d;overflow:hidden;pointer-events:none;color:#9b9ba1;font-size:16px}.suggestion-row{height:45px;display:flex;align-items:center;padding:0 14px}.suggestion-row+.suggestion-row{border-top:1px solid #3a3a3c}.suggestion-icon{width:25px;height:25px;margin-right:12px;display:grid;place-items:center;color:#fff}.suggestion-person{width:22px;height:22px;border:2px solid #fff;border-radius:50%;position:relative}.suggestion-person:before{content:"";position:absolute;width:6px;height:6px;border-radius:50%;background:#fff;left:6px;top:3px}.suggestion-person:after{content:"";position:absolute;width:12px;height:6px;border-radius:8px 8px 4px 4px;background:#fff;left:3px;bottom:2px}.suggestion-search{width:19px;height:19px;border:2px solid #fff;border-radius:50%;position:relative}.suggestion-search:after{content:"";position:absolute;width:8px;height:2px;background:#fff;transform:rotate(45deg);right:-6px;bottom:-3px;border-radius:2px}.suggestion-name{white-space:nowrap;max-width:86px;overflow:hidden;text-overflow:ellipsis}.suggestion-num{margin-left:auto;color:#dddde1;white-space:nowrap}.suggestion-more{white-space:nowrap}
-.dynamic-img{position:absolute;display:block;pointer-events:none}
-.add-contact{left:377px;top:55px;width:37px;height:36px}.delete{left:303px;top:711px;width:43px;height:43px}
-.hidden{display:none!important}
-.hit{position:absolute;border:0;background:transparent;border-radius:50%;z-index:5;touch-action:none}
-.press-ring{position:absolute;width:88px;height:88px;border-radius:50%;background:rgba(255,255,255,.22);z-index:4;pointer-events:none;opacity:0;transition:opacity 55ms linear}
-.press-ring.on{opacity:1}
-#callHit{left:172px;top:691px;width:84px;height:84px}
-#searchHit{left:345px;top:844px;width:63px;height:63px}
-#callsHit{left:20px;top:844px;width:105px;height:63px;border-radius:31px}
-#contactsHit{left:125px;top:844px;width:105px;height:63px;border-radius:31px}
-#keypadHit{left:230px;top:844px;width:106px;height:63px;border-radius:31px}
-.callview{display:none;position:absolute;inset:0;z-index:30;background:radial-gradient(circle at 50% 16%,#29292b 0,#171719 34%,#060607 73%,#000 100%)}
-.callview.on{display:block}
-.call-top{position:absolute;top:104px;left:24px;right:24px;text-align:center}.call-number{font-size:31px;line-height:38px;font-weight:400;letter-spacing:-.45px}.call-state{margin-top:7px;color:#d0d0d4;font-size:16px}
-.hangup{position:absolute;left:172px;bottom:78px;width:84px;height:84px;border-radius:50%;background:#ff3b30;display:grid;place-items:center;color:#fff}.hangup svg{width:48px;height:48px}
-.backdrop{position:fixed;inset:0;z-index:90;background:rgba(0,0,0,.52);opacity:0;pointer-events:none;transition:opacity .16s;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}.backdrop.on{opacity:1;pointer-events:auto}
-.sheet{position:fixed;z-index:100;left:8px;right:8px;bottom:8px;min-height:330px;padding:12px 20px calc(22px + env(safe-area-inset-bottom));border-radius:28px;background:#1c1c1e;border:1px solid rgba(255,255,255,.13);transform:translateY(calc(100% + 30px));transition:transform .21s cubic-bezier(.22,.85,.26,1);box-shadow:0 -18px 60px rgba(0,0,0,.5)}.sheet.on{transform:translateY(0)}
-.grabber{width:40px;height:5px;margin:0 auto 18px;border-radius:3px;background:#5d5d60}.sheet-head{display:flex;justify-content:space-between}.eyebrow{font-size:10.5px;letter-spacing:1.15px;color:#8e8e93}.sheet h2{margin:4px 0 21px;font-size:26px;line-height:31px;letter-spacing:-.55px}.sheet-close{width:30px;height:30px;border-radius:50%;background:#3a3a3c;color:#b9b9bd;font-size:23px;line-height:30px}.sheet label{display:block;margin:0 2px 8px;color:#b9b9bd;font-size:13px}.field-wrap{height:50px;border-radius:13px;background:#2c2c2e;border:1px solid #3a3a3c;display:flex;align-items:center}.field-wrap:focus-within{border-color:#0a84ff;box-shadow:0 0 0 1px #0a84ff}#force{flex:1;min-width:0;height:100%;border:0;outline:0;background:transparent;color:#fff;padding:0 14px;font-size:18px;-webkit-user-select:text;user-select:text}.clear{width:34px;height:34px;margin-right:7px;color:#8e8e93;font-size:24px}.hint{margin:10px 2px 18px;color:#7d7d83;font-size:12px;line-height:16px}.save{width:100%;height:50px;border-radius:13px;background:#0a84ff;color:#fff;font-size:17px;font-weight:600}
-</style>
+<link rel="apple-touch-icon" sizes="180x180" href="./assets/icon-r4-180.png">
+<link rel="icon" type="image/png" href="./assets/icon-r4-192.png">
+<link rel="stylesheet" href="./ui-r4.css">
 </head>
 <body>
-<main id="stage" class="stage">
-  <img class="native-crop keypad-crop" src="./assets/keypad-block.webp" alt="">
-  <img class="native-crop call-crop" src="./assets/call-button.webp" alt="">
-  <img class="native-crop bottom-crop" src="./assets/bottom-bar.webp" alt="">
-  <div id="number" class="number"></div>
-  <div id="suggestion" class="suggestion hidden"><div class="suggestion-row"><span class="suggestion-icon"><i class="suggestion-person"></i></span><span class="suggestion-name">Злата...</span><span class="suggestion-num">+375 (29) 390-67-71</span></div><div class="suggestion-row"><span class="suggestion-icon"><i class="suggestion-search"></i></span><span class="suggestion-more">Еще 551 результат</span></div></div>
-  <img id="addContact" class="dynamic-img add-contact hidden" src="./assets/add-contact.webp" alt="">
-  <img id="deleteImg" class="dynamic-img delete hidden" src="./assets/delete.webp" alt="">
-  <div id="pressRing" class="press-ring"></div>
-
-  <div id="keys"></div>
-  <button id="callHit" class="hit" aria-label="Позвонить"></button>
-  <button id="callsHit" class="hit" aria-label="Вызовы"></button>
-  <button id="contactsHit" class="hit" aria-label="Контакты"></button>
-  <button id="keypadHit" class="hit" aria-label="Клавиши"></button>
-  <button id="searchHit" class="hit" aria-label="Поиск"></button>
-
-  <section id="callView" class="callview">
-    <div class="call-top"><div id="callNumber" class="call-number"></div><div id="callState" class="call-state">вызов...</div></div>
-    <button id="hangup" class="hangup" aria-label="Завершить"><svg viewBox="0 0 64 64"><path d="M9 37.5c13.8-11 32.2-11 46 0l-5.3 10.2c-.8 1.6-2.7 2.3-4.4 1.7l-8.8-3.1v-7.5a29 29 0 0 0-9 0v7.5l-8.8 3.1c-1.7.6-3.6-.1-4.4-1.7L9 37.5Z" fill="currentColor"/></svg></button>
-  </section>
+<main id="phone" class="phone" aria-label="Телефон">
+ <section id="dialer" class="page dialer" aria-label="Клавиши">
+  <div class="number-area">
+   <button id="addContact" class="icon-button add-contact" aria-label="Добавить контакт" hidden></button>
+   <div id="number" class="number" aria-live="polite"></div>
+   <div id="suggestion" class="suggestion" hidden></div>
+  </div>
+  <div id="dial-pad" class="dial-pad">
+   <div id="keys" class="keys" aria-label="Клавиатура набора"></div>
+   <div class="call-row"><div></div><button id="call" class="call" aria-label="Позвонить"></button><button id="delete" class="delete icon-button" aria-label="Удалить цифру" hidden></button></div>
+  </div>
+ </section>
+ <section id="calls" class="page list-page" aria-label="Вызовы" hidden></section>
+ <section id="contacts" class="page list-page" aria-label="Контакты" hidden></section>
+ <section id="search" class="page list-page" aria-label="Поиск" hidden>
+  <header class="large-heading"><h1>Поиск</h1></header>
+  <label class="search-field"><span class="search-mark"></span><input id="searchInput" type="search" placeholder="Имя или номер" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Поиск контактов и вызовов"></label>
+  <div id="searchResults"></div>
+ </section>
+ <nav id="nav" class="nav" aria-label="Вкладки телефона">
+  <div class="tab-pill">
+   <button data-tab="calls" class="tab" aria-label="Вызовы"><span class="tab-glyph"></span><span>Вызовы</span></button>
+   <button data-tab="contacts" class="tab" aria-label="Контакты"><span class="tab-glyph"></span><span>Контакты</span></button>
+   <button data-tab="dialer" class="tab selected" aria-label="Клавиши" aria-current="page"><span class="tab-glyph"></span><span>Клавиши</span></button>
+  </div>
+  <button id="searchTab" data-tab="search" class="search-tab" aria-label="Поиск"></button>
+ </nav>
+ <section id="detail" class="detail page" aria-label="Карточка контакта" hidden></section>
+ <section id="callScreen" class="call-screen" aria-label="Экран вызова" hidden>
+  <div class="call-heading"><div id="callName"></div><div id="callStatus">вызов…</div></div>
+  <div id="callActions" class="call-actions"></div>
+  <div id="inCallKeys" class="in-call-keys" hidden><div class="keys"></div><button id="hideInCallKeys" class="text-button">Скрыть</button></div>
+  <button id="endCall" class="end-call" aria-label="Завершить вызов"></button>
+ </section>
 </main>
-
-<div id="backdrop" class="backdrop"></div>
-<section id="sheet" class="sheet">
-  <div class="grabber"></div>
-  <div class="sheet-head"><div><div class="eyebrow">CALL ROUTING</div><h2>Скрытые настройки</h2></div><button id="closeSheet" class="sheet-close">×</button></div>
-  <label for="force">Фактический номер</label>
-  <div class="field-wrap"><input id="force" type="tel" inputmode="tel" autocomplete="off" placeholder="+375 29 000-00-00"><button id="clearForce" class="clear">×</button></div>
-  <p class="hint">На основном экране всегда остаётся номер, который набран визуально. Сохранённый номер предназначен для фактической маршрутизации вызова.</p>
-  <button id="saveForce" class="save">Сохранить</button>
-</section>
-<script>
-(()=>{
-  const BASE_W=428,BASE_H=926;
-  const stage=document.getElementById('stage'), number=document.getElementById('number'), suggestion=document.getElementById('suggestion'), addContact=document.getElementById('addContact'), deleteImg=document.getElementById('deleteImg'), pressRing=document.getElementById('pressRing');
-  const callHit=document.getElementById('callHit'), searchHit=document.getElementById('searchHit'), callView=document.getElementById('callView'), callNumber=document.getElementById('callNumber'), callState=document.getElementById('callState'), hangup=document.getElementById('hangup');
-  const backdrop=document.getElementById('backdrop'), sheet=document.getElementById('sheet'), force=document.getElementById('force');
-  let raw='', zeroTimer=0, zeroLong=false, symbolTimer=0, symbolLong=false, secretTaps=[], callTimer=0, callStart=0;
-
-  function fit(){const s=Math.min(innerWidth/BASE_W,innerHeight/BASE_H),x=(innerWidth-BASE_W*s)/2,y=(innerHeight-BASE_H*s)/2;stage.style.left=x+'px';stage.style.top=y+'px';stage.style.transform=`scale(${s})`}
-  addEventListener('resize',fit,{passive:true}); fit();
-
-  const keyDefs=[
-    ['1',58,252],['2',170,252],['3',282,252],
-    ['4',58,361],['5',170,361],['6',282,361],
-    ['7',58,469],['8',170,469],['9',282,469],
-    ['*',58,577],['0',170,577],['#',282,577]
-  ];
-  const keys=document.getElementById('keys');
-  for(const [k,x,y] of keyDefs){const b=document.createElement('button');b.className='hit';b.dataset.key=k;b.style.cssText=`left:${x}px;top:${y}px;width:88px;height:88px`;b.setAttribute('aria-label',k);keys.appendChild(b)}
-
-  function formatNumber(){
-    const plus=raw.startsWith('+'), digits=raw.replace(/\D/g,'');
-    if(!digits)return plus?'+':'';
-    if(digits.startsWith('375')&&!/[#*,;]/.test(raw)){
-      const rest=digits.slice(3); let out=(plus?'+':'')+'375'; if(!rest)return out;
-      const ac=rest.slice(0,2); out+=' ('+ac+(ac.length===2?')':''); const t=rest.slice(2);
-      if(t){out+=' '+t.slice(0,3);if(t.length>3)out+='-'+t.slice(3,5);if(t.length>5)out+='-'+t.slice(5,7);if(t.length>7)out+=t.slice(7)}return out;
-    }
-    if(plus)return '+'+digits;
-    return raw;
-  }
-  function draw(){
-    const txt=formatNumber(), digits=raw.replace(/\D/g,'').length;
-    number.textContent=txt; number.className='number'+(txt.length>=18?' small':txt.length>=14?' medium':'');
-    deleteImg.classList.toggle('hidden',!raw);
-    addContact.classList.toggle('hidden',digits<10);
-    const showSuggest=(raw.startsWith('+37529')&&digits>=5&&digits<=7); suggestion.classList.toggle('hidden',!showSuggest);
-  }
-  function append(v){if(raw.length>=24)return;if(v==='+'&&raw)return;raw+=v;draw()}
-  function erase(){raw=raw.slice(0,-1);draw()}
-  function ringAt(x,y,on){pressRing.style.left=x+'px';pressRing.style.top=y+'px';pressRing.classList.toggle('on',on)}
-  function tone(k){const map={1:[697,1209],2:[697,1336],3:[697,1477],4:[770,1209],5:[770,1336],6:[770,1477],7:[852,1209],8:[852,1336],9:[852,1477],'*':[941,1209],0:[941,1336],'#':[941,1477]},m=map[k];if(!m)return;try{window.__ac||(window.__ac=new(window.AudioContext||window.webkitAudioContext));const ac=window.__ac,g=ac.createGain();g.gain.setValueAtTime(.026,ac.currentTime);g.gain.exponentialRampToValueAtTime(.0001,ac.currentTime+.085);for(const f of m){const o=ac.createOscillator();o.frequency.value=f;o.connect(g);o.start();o.stop(ac.currentTime+.085)}g.connect(ac.destination)}catch(e){}}
-
-  keys.addEventListener('pointerdown',e=>{const b=e.target.closest('button[data-key]');if(!b)return;e.preventDefault();const k=b.dataset.key,x=parseFloat(b.style.left),y=parseFloat(b.style.top);ringAt(x,y,true);tone(k);
-    if(k==='0'){zeroLong=false;clearTimeout(zeroTimer);zeroTimer=setTimeout(()=>{zeroLong=true;append('+')},430)}
-    else if(k==='*'||k==='#'){symbolLong=false;clearTimeout(symbolTimer);symbolTimer=setTimeout(()=>{symbolLong=true;append(k==='*'?',':';')},520)}
-    else append(k);
-  });
-  function releaseKey(e){const b=e.target.closest('button[data-key]');ringAt(0,0,false);if(!b)return;const k=b.dataset.key;if(k==='0'){clearTimeout(zeroTimer);if(!zeroLong)append('0');zeroLong=false}else if(k==='*'||k==='#'){clearTimeout(symbolTimer);if(!symbolLong)append(k);symbolLong=false}}
-  keys.addEventListener('pointerup',releaseKey);keys.addEventListener('pointercancel',()=>ringAt(0,0,false));
-  deleteImg.addEventListener?.('click',erase); // image itself is pointer-events none; hit zone below handles deletion
-  const delHit=document.createElement('button');delHit.className='hit';delHit.style.cssText='left:303px;top:711px;width:43px;height:43px;z-index:6';delHit.onclick=erase;stage.appendChild(delHit);
-
-  function openSecret(){force.value=localStorage.getItem('mccall.route')||'';backdrop.classList.add('on');sheet.classList.add('on');setTimeout(()=>force.focus(),180)}
-  searchHit.onclick=()=>{const now=performance.now();secretTaps=secretTaps.filter(t=>now-t<1650);secretTaps.push(now);if(secretTaps.length>=5){secretTaps=[];openSecret()}};
-  function closeSecret(){force.blur();backdrop.classList.remove('on');sheet.classList.remove('on')}
-  document.getElementById('closeSheet').onclick=closeSecret;backdrop.onclick=closeSecret;document.getElementById('clearForce').onclick=()=>{force.value='';force.focus()};document.getElementById('saveForce').onclick=()=>{localStorage.setItem('mccall.route',force.value.trim());closeSecret()};
-
-  callHit.onclick=()=>{if(!raw)return;callNumber.textContent=formatNumber();callState.textContent='вызов...';callView.classList.add('on');callStart=Date.now();clearInterval(callTimer);callTimer=setInterval(()=>{const s=Math.floor((Date.now()-callStart)/1000);if(s>1)callState.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0')},500);const endpoint=localStorage.getItem('mccall.endpoint')||'',route=localStorage.getItem('mccall.route')||'';if(endpoint&&route)fetch(endpoint,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({displayNumber:formatNumber(),forceNumber:route})}).catch(()=>{})};
-  hangup.onclick=()=>{clearInterval(callTimer);callView.classList.remove('on')};
-  draw();
-  if('serviceWorker'in navigator)addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));
-})();
-</script>
+<dialog id="settings" class="modal settings"><div class="modal-inner">
+ <header class="modal-heading"><div><small>MC CALL · <span id="version"></span></small><h2>Настройки</h2></div><button class="round close" data-close aria-label="Закрыть">×</button></header>
+ <form id="settingsForm">
+  <div class="group"><label class="field">Фактический номер<input id="force" name="force" type="tel" inputmode="tel" placeholder="+375…" autocomplete="off"></label></div>
+  <p class="footnote">Это подготовленный адресат. Набранный на клавиатуре номер остаётся только на экране. Номер и контакты не публикуются в GitHub.</p>
+  <div class="group"><label class="setting-row">Режим<select id="mode" name="mode"><option value="demo">Репетиция · без звонка</option><option value="live">Настоящий звонок · VoIP</option></select></label>
+   <label class="setting-row">Звуки клавиш<input id="sounds" name="sounds" type="checkbox" role="switch"></label>
+   <label class="setting-row">Ответ в репетиции<select id="delay" name="delay"><option value="2">Через 2 с</option><option value="3">Через 3 с</option><option value="5">Через 5 с</option><option value="8">Через 8 с</option></select></label>
+  </div>
+  <div id="liveSettings" hidden><label class="field group">Адрес голосового backend<input id="backend" type="url" placeholder="https://…" autocomplete="off"></label><label class="field group">Ключ доступа исполнителя<input id="operatorKey" type="password" autocomplete="off" placeholder="Только на эту сессию"></label><p class="footnote">Это не API Secret Twilio. Ключ доступа не сохраняется и не включается в резервную копию. Реальный режим требует развёрнутого backend, разрешённого номера и микрофона.</p><button id="checkBackend" type="button" class="row-action group">Проверить подключение</button></div>
+  <p id="modeNotice" class="notice">Репетиция: реальное соединение не устанавливается, речь собеседника не воспроизводится.</p>
+  <button class="primary" type="submit">Применить</button>
+ </form>
+ <h3 class="section-title">Данные на этом устройстве</h3>
+ <div class="group"><button id="importVCF" class="row-action">Импорт контактов .vcf <span>›</span></button><button id="exportBackup" class="row-action">Сохранить резервную копию <span>↑</span></button><button id="importBackup" class="row-action">Восстановить резервную копию <span>↓</span></button><button id="requestPersistence" class="row-action">Проверить локальное хранилище <span>›</span></button></div>
+ <p id="storageInfo" class="footnote"></p>
+ <div class="group"><button id="clearHistory" class="row-action danger">Очистить историю вызовов</button><button id="clearContacts" class="row-action danger">Удалить импортированные контакты</button></div>
+ <h3 class="section-title">Установка и проверка</h3>
+ <p class="footnote">Safari → Поделиться → На экран «Домой» → Открыть как веб-приложение. Запускайте с иконки. Для настроек: пять нажатий на поиск за две секунды.</p>
+ <button id="updateApp" class="row-action group">Проверить обновление <span>↻</span></button>
+ <p class="footnote">Контакты, история и настройки хранятся в IndexedDB. Импорт выполняется на телефоне. Очистка данных сайта может удалить базу. Резервная копия содержит личные данные без шифрования. Это сценический инструмент, не приложение Apple и не замена экстренной связи. SMS, FaceTime и системная история iOS не подключены.</p>
+</div></dialog>
+<dialog id="editor" class="modal"><form id="contactForm" class="modal-inner"><header class="modal-heading"><button type="button" class="text-button" data-close>Отменить</button><strong id="editorTitle">Новый контакт</strong><button class="text-button" type="submit">Готово</button></header><div class="editor-avatar"></div><div class="group"><label class="field">Имя<input name="first" autocomplete="off" maxlength="100"></label><label class="field">Фамилия<input name="last" autocomplete="off" maxlength="100"></label><label class="field">Компания<input name="company" autocomplete="off" maxlength="200"></label></div><div id="phoneFields" class="group"></div><button id="addPhoneField" type="button" class="row-action group">＋ Добавить телефон</button><div class="group"><label class="field">Электронная почта<input name="email" type="email" autocomplete="off"></label></div><button id="deleteContact" type="button" class="row-action group danger" hidden>Удалить контакт</button></form></dialog>
+<dialog id="message" class="alert-dialog"><form method="dialog"><h2 id="messageTitle"></h2><p id="messageText"></p><div id="messageButtons"></div></form></dialog>
+<input id="fileVCF" type="file" accept=".vcf,text/vcard,text/x-vcard" hidden>
+<input id="fileBackup" type="file" accept=".mcphone,.json,application/json" hidden>
+<div id="toast" class="toast" role="status" hidden></div>
+<noscript><p>Для работы клавиатуры нужен JavaScript.</p></noscript>
+<script type="module" src="./app-r4.js"></script>
 </body>
 </html>

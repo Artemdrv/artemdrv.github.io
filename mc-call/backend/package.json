@@ -1,0 +1,1 @@
+{"name":"mc-call-voice-backend","private":true,"type":"module","engines":{"node":">=22"},"scripts":{"build":"esbuild voice-entry.mjs --bundle --format=esm --platform=browser --minify --outfile=public/sdk.js"},"dependencies":{"@twilio/voice-sdk":"^2.0.0"},"devDependencies":{"esbuild":"^0.25.0"}}

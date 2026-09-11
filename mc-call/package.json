@@ -1,0 +1,1 @@
+{"name":"mc-call-r4","version":"4.0.0","private":true,"type":"module","scripts":{"test":"node --test tests/core.test.mjs tests/backend.test.mjs","serve":"python3 -m http.server 8080"}}
