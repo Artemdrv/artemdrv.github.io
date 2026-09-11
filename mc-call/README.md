@@ -1,14 +1,5 @@
-# MC Call PWA
+# MC Call PWA v3
 
-Static iPhone-style dialer PWA for stage-performance use.
+Pixel-matched keypad skin based on the supplied iOS 26 Phone screenshots. The empty keypad, symbols, Phone glyph, bottom navigation and search control are rendered from the supplied native reference; dynamic number text, suggestions, delete/add-contact states and hidden routing settings remain interactive.
 
-## Hidden settings
-Rapidly tap the bottom-right search button 5 times. Enter the actual/forced phone number and tap **Применить**. The value is stored locally on the device.
-
-## PWA install on iPhone
-Open the HTTPS page in Safari → Share → Add to Home Screen / Open as Web App.
-
-## Real call transport
-The static build runs in UI/demo mode by default. A real VoIP/PSTN call requires a backend. Set `window.MC_CALL_ENDPOINT` in `config.js` to an HTTPS endpoint that accepts `displayNumber` and `forceNumber`.
-
-Do not put provider secrets in this repository or in browser JavaScript.
+Secret routing menu: tap Search 5 times quickly.
