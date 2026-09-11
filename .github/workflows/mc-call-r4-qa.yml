@@ -1,0 +1,65 @@
+name: MC Call r4 validation
+on:
+  push:
+    branches: [mc-call-r4-build]
+    paths: ['mc-call-build/**', '.github/workflows/mc-call-r4-qa.yml']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Detect source bundle
+        id: source
+        run: |
+          if test -f mc-call-build/r4.zip.b64; then echo 'ready=true' >> "$GITHUB_OUTPUT"; else echo 'ready=false' >> "$GITHUB_OUTPUT"; fi
+      - name: Unpack staged source
+        if: steps.source.outputs.ready == 'true'
+        run: |
+          python3 - <<'PY'
+          import base64,zipfile,io,pathlib
+          z=zipfile.ZipFile(io.BytesIO(base64.b64decode(pathlib.Path('mc-call-build/r4.zip.b64').read_text())))
+          root=pathlib.Path('mc-call').resolve()
+          for name in z.namelist():
+              target=(root/name).resolve()
+              if root not in target.parents: raise ValueError('Invalid bundle path')
+          z.extractall(root)
+          PY
+      - name: Unit checks
+        if: steps.source.outputs.ready == 'true'
+        working-directory: mc-call
+        run: npm test
+      - name: Install browser test environment
+        if: steps.source.outputs.ready == 'true'
+        run: |
+          python3 -m pip install playwright==1.56.0
+          python3 -m playwright install --with-deps chromium
+      - name: Browser interaction and viewport checks
+        if: steps.source.outputs.ready == 'true'
+        run: |
+          python3 -m http.server 8765 --bind 127.0.0.1 --directory mc-call > /tmp/mc-call-http.log 2>&1 &
+          python3 mc-call/tests/browser.py
+      - name: Save test evidence
+        if: always() && steps.source.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: mc-call-r4-evidence
+          path: mc-call/qa/
+          retention-days: 7
+      - name: Prepare verified branch (do not publish to main)
+        if: success() && steps.source.outputs.ready == 'true'
+        run: |
+          git config user.name 'MC Call QA'
+          git config user.email '154014161+Artemdrv@users.noreply.github.com'
+          rm -rf mc-call-build
+          git add -A -- mc-call mc-call-build
+          git commit -m 'MC Call r4: validated responsive PWA and local contact database'
+          git push origin HEAD:refs/heads/mc-call-r4-ready
