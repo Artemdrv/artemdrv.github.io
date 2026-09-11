@@ -6,10 +6,13 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: mc-call-r4-validation
+  cancel-in-progress: true
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
       - uses: actions/checkout@v4
         with:
@@ -20,19 +23,26 @@ jobs:
       - name: Detect source bundle
         id: source
         run: |
-          if test -f mc-call-build/r4.zip.b64; then echo 'ready=true' >> "$GITHUB_OUTPUT"; else echo 'ready=false' >> "$GITHUB_OUTPUT"; fi
-      - name: Unpack staged source
+          if test -f mc-call-build/r4.sha256; then echo 'ready=true' >> "$GITHUB_OUTPUT"; else echo 'ready=false' >> "$GITHUB_OUTPUT"; fi
+      - name: Unpack and verify staged source
         if: steps.source.outputs.ready == 'true'
         run: |
           python3 - <<'PY'
-          import base64,zipfile,io,pathlib
-          z=zipfile.ZipFile(io.BytesIO(base64.b64decode(pathlib.Path('mc-call-build/r4.zip.b64').read_text())))
+          import base64,zipfile,io,pathlib,hashlib
+          staged=pathlib.Path('mc-call-build')
+          encoded=''.join(f.read_text().strip() for f in sorted(staged.glob('r4.part*.b64')))
+          data=base64.b64decode(encoded,validate=True)
+          expected=(staged/'r4.sha256').read_text().strip()
+          if hashlib.sha256(data).hexdigest()!=expected: raise ValueError('Source checksum mismatch')
+          z=zipfile.ZipFile(io.BytesIO(data))
           root=pathlib.Path('mc-call').resolve()
           for name in z.namelist():
               target=(root/name).resolve()
               if root not in target.parents: raise ValueError('Invalid bundle path')
           z.extractall(root)
+          print('Verified',len(z.namelist()),'source files')
           PY
+          if test -f mc-call-build/patch.py; then python3 mc-call-build/patch.py; fi
       - name: Unit checks
         if: steps.source.outputs.ready == 'true'
         working-directory: mc-call
@@ -40,13 +50,18 @@ jobs:
       - name: Install browser test environment
         if: steps.source.outputs.ready == 'true'
         run: |
-          python3 -m pip install playwright==1.56.0
-          python3 -m playwright install --with-deps chromium
+          python3 -m pip install playwright==1.56.0 pillow
+          python3 -m playwright install --with-deps chromium webkit
+      - name: Obtain Phone icon from official Apple artwork
+        if: steps.source.outputs.ready == 'true'
+        run: python3 mc-call/tests/fetch-icon.py
       - name: Browser interaction and viewport checks
         if: steps.source.outputs.ready == 'true'
         run: |
           python3 -m http.server 8765 --bind 127.0.0.1 --directory mc-call > /tmp/mc-call-http.log 2>&1 &
-          python3 mc-call/tests/browser.py
+          for i in 1 2 3 4 5; do curl -fsS http://127.0.0.1:8765/ > /dev/null && break || sleep 1; done
+          BROWSER=chromium python3 mc-call/tests/browser.py
+          BROWSER=webkit python3 mc-call/tests/browser.py
       - name: Save test evidence
         if: always() && steps.source.outputs.ready == 'true'
         uses: actions/upload-artifact@v4
